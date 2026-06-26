@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/css/style.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    
+   <script>
+        function enableEdit(field) {
+            document.getElementById(field + 'Display').style.display = 'none';
+            document.getElementById(field + 'Edit').style.display = 'block';
+        }
+
+        function cancelEdit(field) {
+            document.getElementById(field + 'Edit').style.display = 'none';
+            document.getElementById(field + 'Display').style.display = 'flex';
+        }
+    </script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand white-font  pl-25" href="/">Innovative Academy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active white-font" aria-current="page"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link white-font" ></a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                <ul class="navbar-nav me-auto mb-2 pr-50 mb-lg-0">
+	                <li class="nav-item">
+	                    <svg width="25" height="25" fill="#fff" class="bi bi-person-circle mt-10" viewBox="0 0 16 16">
+	                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+	                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+	                    </svg>
+	                </li>
+	                <li class="nav-item">
+                <a class="nav-link white-font" aria-current="page" href="/profile">Profile</a>
+                </li>
+            	</ul>
+	            </span>
+	            </div>
+	        </div>
+	    </nav>
+</header>
+<div class="grids">
+<div class="container mt-5">
+    <h2>User Profile</h2>
+    <form th:action="@{/profile/save}" th:object="${user}" method="post" class="card p-4">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- Full Name -->
+        <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <div id="fullNameDisplay" class="d-flex justify-content-between align-items-center">
+                <span th:text="*{name}">N/A</span>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('fullName')">Edit</button>
+            </div>
+            <div id="fullNameEdit" style="display: none;">
+                <input type="text" class="form-control" th:field="*{name}">
+                <div class="mt-2">
+                    <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('fullName')">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email (non-editable) -->
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" th:field="*{email}" readonly />
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <div id="phoneDisplay" class="d-flex justify-content-between align-items-center">
+                <span th:text="*{phone}">N/A</span>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('phone')">Edit</button>
+            </div>
+            <div id="phoneEdit" style="display: none;">
+                <input type="text" class="form-control" th:field="*{phone}">
+                <div class="mt-2">
+                    <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+                    <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('phone')">Cancel</button>
+                </div>
+            </div>
+        </div>
+        
+	<!-- About Me -->
+<div class="mb-3">
+    <label class="form-label">About Me</label>
+    <div id="aboutMeDisplay" class="d-flex justify-content-between align-items-center">
+        <span th:text="*{aboutMe}">N/A</span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('aboutMe')">Edit</button>
+    </div>
+    <div id="aboutMeEdit" style="display: none;">
+        <textarea class="form-control" th:field="*{aboutMe}"></textarea>
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('aboutMe')">Cancel</button>
+        </div>
+    </div>
+</div>
+<!-- Street Name -->
+<div class="mb-3">
+    <label class="form-label">Street Name</label>
+    <div id="streetDisplay" class="d-flex justify-content-between align-items-center">
+        <span th:text="*{street}">N/A</span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('street')">Edit</button>
+    </div>
+    <div id="streetEdit" style="display: none;">
+        <input type="text" class="form-control" th:field="*{street}">
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('street')">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- State -->
+<div class="mb-3">
+    <label class="form-label">State</label>
+    <div id="stateDisplay" class="d-flex justify-content-between align-items-center">
+        <span th:text="*{state}">N/A</span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('state')">Edit</button>
+    </div>
+    <div id="stateEdit" style="display: none;">
+        <input type="text" class="form-control" th:field="*{state}">
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('state')">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- City -->
+<div class="mb-3">
+    <label class="form-label">City</label>
+    <div id="cityDisplay" class="d-flex justify-content-between align-items-center">
+        <span th:text="*{city}">N/A</span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('city')">Edit</button>
+    </div>
+    <div id="cityEdit" style="display: none;">
+        <input type="text" class="form-control" th:field="*{city}">
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('city')">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Postal Code -->
+<div class="mb-3">
+    <label class="form-label">Postal Code</label>
+    <div id="postalDisplay" class="d-flex justify-content-between align-items-center">
+        <span th:text="*{postalCode}">N/A</span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('postal')">Edit</button>
+    </div>
+    <div id="postalEdit" style="display: none;">
+        <input type="text" class="form-control" th:field="*{postalCode}">
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('postal')">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Education -->
+<div class="mb-3">
+    <label class="form-label">Highest Education</label>
+    <div id="educationDisplay" class="d-flex justify-content-between align-items-center">
+        <span th:text="*{education}">N/A</span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('education')">Edit</button>
+    </div>
+    <div id="educationEdit" style="display: none;">
+        <input type="text" class="form-control" th:field="*{education}">
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('education')">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Experience -->
+<div class="mb-3">
+    <label class="form-label">Total Experience</label>
+    <div id="experienceDisplay" class="d-flex justify-content-between align-items-center">
+        <span th:text="*{experience}">N/A</span>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="enableEdit('experience')">Edit</button>
+    </div>
+    <div id="experienceEdit" style="display: none;">
+        <input type="text" class="form-control" th:field="*{experience}">
+        <div class="mt-2">
+            <button type="button" class="btn btn-sm btn-success" onclick="this.form.submit()">Save</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEdit('experience')">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- Logout Button (at the end of form) -->
+<div class="mt-3 text-center">
+    <a href="/logout" class="btn btn-danger">Logout</a>
+</div>
+    </form>
+</div>
+
+</div>
+</body>
+</html>

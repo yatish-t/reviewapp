@@ -1,0 +1,47 @@
+ :root{
+         --white: #fff;
+         --blue: #3ea4f8;
+         --orange: #ff811b;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, rgb(181, 227, 245), #ffffff);
+    }
+    
+    .navbar{
+        background-color: var(--blue);
+        padding: auto 50px;
+    }
+    .white-font{
+        color: var(--white) !important;
+        font-weight: 600;
+        font-size: 20px;
+    }
+    .pl-25{
+       padding-left: 25px;
+    }
+    .pr-50{
+        padding-right: 50px;
+    }
+    .mt-10{
+        margin-top: 10px;
+    }
+    .ml-25{
+        margin-left: 25px;
+    }
+    .mb-20{
+     	margin-bottom: 20px;
+     }
+    .card-img-top{
+        padding: 10px;
+        border: 1px solid #c3c3c3;
+    }
+    .media:hover{
+        padding: 1px;
+    } 
+    
+    /* index design end */
+    
+    
+    

@@ -1,0 +1,10 @@
+FROM mysql:8.4
+
+# Set environment variables 
+ENV MYSQL_ROOT_PASSWORD=password 
+ENV MYSQL_DATABASE=reviewdb 
+ENV MYSQL_USER=admin 
+ENV MYSQL_PASSWORD=password
+
+# Expose MySQL port
+EXPOSE 3306

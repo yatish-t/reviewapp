@@ -1,0 +1,130 @@
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root{
+         --white: #fff;
+         --blue: #3ea4f8;
+         --orange: #ff811b;
+    }
+    
+    .navbar{
+        background-color: var(--blue);
+        padding: auto 50px;
+    }
+    .white-font{
+        color: var(--white) !important;
+        font-weight: 600;
+        font-size: 20px;
+    }
+    .pl-25{
+       padding-left: 25px;
+    }
+    .pr-50{
+        padding-right: 50px;
+    }
+    .mt-10{
+        margin-top: 10px;
+    }
+    .ml-25{
+        margin-left: 25px;
+    }
+    .mb-20{
+     	margin-bottom: 20px;
+     }
+    .card-img-top{
+        padding: 10px;
+        border: 1px solid #c3c3c3;
+    }
+    .media:hover{
+        padding: 1px;
+    } 
+
+    .grids {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg,rgb(181, 227, 245), #ffffff);
+      height: 100%;
+      width:100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      margin:38px auto;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      transition: 0.3s ease;
+    }
+
+    .login-box:hover {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-box h2 {
+      margin-bottom: 30px;
+      text-align: center;
+      color: #333;
+    }
+
+    .login-box input{
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .login-box input:focus {
+      border-color: #6c63ff;
+      outline: none;
+    }
+
+    .login-box button {
+      width: 100%;
+      background: #6c63ff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #5848d6;
+    }
+
+    .login-box .links {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .login-box .links a {
+      text-decoration: none;
+      color: #6c63ff;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .login-box .links a:hover {
+      color: #483dc4;
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 30px 20px;
+      }
+
+      .login-box h2 {
+        font-size: 22px;
+      }
+    }

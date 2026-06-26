@@ -1,0 +1,63 @@
+- name: Deploy ReviewApp to ASG
+  hosts: asg_reviewASG
+  become: yes
+
+  vars:
+    app_dir: /opt/reviewapp
+    app_name: reviewapp.jar
+    service_name: reviewapp
+    nexus_url: "http://172.31.38.36:8081/repository/snapshot/com/innovative/ReviewApp/0.0.1-SNAPSHOT/ReviewApp-0.0.1-20260513.081836-1.jar"
+
+  tasks:
+
+    - name: Ensure Java 17 installed
+      apt:
+        name: openjdk-17-jdk
+        state: present
+        update_cache: yes
+
+    - name: Create application directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Download artifact from Nexus
+      get_url:
+        url: "{{ nexus_url }}"
+        dest: "{{ app_dir }}/{{ app_name }}"
+        mode: '0755'
+
+    - name: Create systemd service file
+      copy:
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+        content: |
+          [Unit]
+          Description=ReviewApp Spring Boot Application
+          After=network.target
+
+          [Service]
+          User=ubuntu
+          WorkingDirectory={{ app_dir }}
+          ExecStart=/usr/bin/java -jar {{ app_dir }}/{{ app_name }}
+          SuccessExitStatus=143
+          Restart=always
+          RestartSec=5
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd
+      command: systemctl daemon-reload
+
+    - name: Enable service
+      systemd:
+        name: "{{ service_name }}"
+        enabled: yes
+
+    - name: Restart service
+      systemd:
+        name: "{{ service_name }}"
+        state: restarted

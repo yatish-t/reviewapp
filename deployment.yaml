@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reviewapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reviewapp
+  template:
+    metadata:
+      labels:
+        app: reviewapp
+    spec:
+      containers:
+      - name: reviewapp
+        image: innovativeacademy/reviewapp:latest
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "300m"
+            memory: "400Mi"
+        ports:
+        - containerPort: 8080
