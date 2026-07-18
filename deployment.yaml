@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: reviewapp
-        image: innovativeacademy/reviewapp:latest
+        image: yatisht1984/testreviewapp:latest
         resources:
           requests:
             cpu: "100m"
