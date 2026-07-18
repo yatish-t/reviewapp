@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "innovativeacademy/reviewapp"
+        DOCKER_IMAGE = "yatisht1984/testreviewapp"
         DOCKER_TAG = "${BUILD_NUMBER}"
     }
 
@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/YagneshTrainer/reviewapp.git'
+                git branch: 'main', url: 'https://github.com/yatish-t/reviewapp.git'
             }
         }
 
@@ -48,7 +48,7 @@ pipeline {
             steps {
                 sh """
                 kubectl apply -f deployment.yaml
-                kubectl set image deployment/reviewapp reviewapp=innovativeacademy/reviewapp:${BUILD_NUMBER}
+                kubectl set image deployment/reviewapp reviewapp=yatisht1984/testreviewapp:${BUILD_NUMBER}
                 """
             }
         }
