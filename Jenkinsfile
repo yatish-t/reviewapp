@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "yatisht1984/testreviewapp"
+        DOCKER_IMAGE = "yatisht1984/springboot-app"
         DOCKER_TAG = "${BUILD_NUMBER}"
     }
 
@@ -48,7 +48,7 @@ pipeline {
             steps {
                 sh """
                 kubectl apply -f deployment.yaml
-                kubectl set image deployment/reviewapp reviewapp=yatisht1984/testreviewapp:${BUILD_NUMBER}
+                kubectl set image deployment/reviewapp reviewapp=yatisht1984/springboot-app:${BUILD_NUMBER}
                 """
             }
         }
