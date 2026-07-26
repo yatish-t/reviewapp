@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: reviewapp
-        image: yatisht1984/testreviewapp:latest
+        image: yatisht1984/springboot-app:latest
         resources:
           requests:
             cpu: "100m"
