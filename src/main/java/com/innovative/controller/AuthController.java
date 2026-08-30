@@ -60,6 +60,7 @@ public class AuthController {
 	                existingReview = new Review();
 	            }
 	            model.addAttribute("review", existingReview);
+
 	        } else {
 	            model.addAttribute("name", "Guest");
 	            model.addAttribute("aboutMe", "Please log in to post reviews.");
