@@ -1,0 +1,69 @@
+name: CI/CD Pipeline - Deploy to AWS EKS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Build Application with Maven
+      run: mvn clean package -DskipTests
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Push Cross-Platform Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./dockerfile
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: |
+          yatisht1984/springboot-app:v1
+          yatisht1984/springboot-app:${{ github.sha }}
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    - name: Connect and Update Kubeconfig
+      run: |
+        aws eks update-kubeconfig --name cicd-lab-one --region ap-south-1
+
+    - name: Deploy Manifests to EKS
+      run: |
+        kubectl apply -f gp3-storage.yaml
+        kubectl apply -f mysql-deploy.yml
+        kubectl apply -f SpringBootDeploy.yml --namespace=default
+        kubectl set image deployment/springboot-app springboot-app=yatisht1984/springboot-app:${{ github.sha }} --namespace=default
+        kubectl rollout restart deployment/springboot-app --namespace=default
+
+    - name: Enforce AWS Security Group Routing
+      run: |
+        NODE_SG=$(aws ec2 describe-security-groups --region ap-south-1 --filters "Name=tag:kubernetes.io/cluster/cicd-lab-one,Values=owned" --query "SecurityGroups[?contains(GroupName, 'node')].GroupId" --output text)
+        NODEPORT=$(kubectl get svc springboot-service -n default -o jsonpath='{.spec.ports.nodePort}')
+        aws ec2 authorize-security-group-ingress --region ap-south-1 --group-id $NODE_SG --protocol tcp --port $NODEPORT --cidr 0.0.0.0/0 || echo "Firewall rule already active"
